@@ -1,4 +1,21 @@
-export const categories = [
+import {serviceApiGet} from "../ServiciosMaestros/request";
+import {api} from "../ServiciosMaestros/apis";
+
+export const categoriesRequest = ()=>{
+  serviceApiGet(api.comercio_tipos)
+    .then((response) => {
+      if (response.status) {
+        categories=response.data;
+      }
+    })
+    .catch((error) => {
+
+    })
+
+  return categories;
+}
+
+export let categories = [
   {
     id: 3,
     name: 'Supermercados',

@@ -7,8 +7,9 @@ import {
   TouchableHighlight
 } from 'react-native';
 import styles from './styles';
-import { categories } from '../../data/dataArrays';
+import { categories, categoriesRequest } from '../../data/dataArrays';
 import { getNumberOfRecipes } from '../../data/MockDataAPI';
+import axios from "axios";
 
 export default class CategoriesScreen extends React.Component {
   static navigationOptions = {
@@ -17,6 +18,7 @@ export default class CategoriesScreen extends React.Component {
 
   constructor(props) {
     super(props);
+
   }
 
   onPressCategory = item => {
@@ -30,7 +32,7 @@ export default class CategoriesScreen extends React.Component {
       <View style={styles.categoriesItemContainer}>
         <Image style={styles.categoriesPhoto} source={{ uri: item.photo_url }} />
         <Text style={styles.categoriesName}>{item.name}</Text>
-        <Text style={styles.categoriesInfo}>{getNumberOfRecipes(item.id)} recipes</Text>
+        <Text style={styles.categoriesInfo}>{getNumberOfRecipes(item.id)} {item.id>1?"Comercios":"Comercio"}</Text>
       </View>
     </TouchableHighlight>
   );
@@ -39,7 +41,7 @@ export default class CategoriesScreen extends React.Component {
     return (
       <View>
         <FlatList
-          data={categories}
+          data={categoriesRequest()}
           renderItem={this.renderCategory}
           keyExtractor={item => `${item.id}`}
         />

@@ -66,13 +66,7 @@ export function getRecipesByIngredient(ingredientId) {
 }
 
 export function getNumberOfRecipes(categoryId) {
-  let count = 0;
-  recipes.map(data => {
-    if (data.categoryId == categoryId) {
-      count++;
-    }
-  });
-  return count;
+  return categoryId;
 }
 
 export function getAllIngredients(idArray) {
