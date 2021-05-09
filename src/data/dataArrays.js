@@ -1,18 +1,21 @@
 import {serviceApiGet} from "../ServiciosMaestros/request";
 import {api} from "../ServiciosMaestros/apis";
 
-export const categoriesRequest = ()=>{
-  serviceApiGet(api.comercio_tipos)
-    .then((response) => {
-      if (response.status) {
-        categories=response.data;
-      }
-    })
-    .catch((error) => {
 
-    })
+export const comerciosRequest = (id)=>{
+  console.log("Comercios:::")
+  serviceApiGet(api.comercios+id)
+      .then((response) => {
+        if (response.status) {
+          console.log("Comercios Return:::",response.data)
+          recipes=response.data;
+        }
+      })
+      .catch((error) => {
 
-  return categories;
+      })
+
+  return recipes;
 }
 
 export let categories = [
@@ -45,7 +48,7 @@ export let categories = [
   },
 ];
 
-export const recipes = [
+export let recipes = [
   {
     recipeId: 122,
     categoryId: 3,

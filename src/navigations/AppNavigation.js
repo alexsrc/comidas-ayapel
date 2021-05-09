@@ -41,8 +41,8 @@ function MainNavigator() {
 
 const MainNavigator = createStackNavigator(
   {
-    Home: HomeScreen,
-    Categories: CategoriesScreen,
+    Home: CategoriesScreen,
+    Categories: HomeScreen,
     Recipe: RecipeScreen,
     RecipesList: RecipesListScreen,
     Ingredient: IngredientScreen,
