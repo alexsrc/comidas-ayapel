@@ -6,6 +6,7 @@ import {createStackNavigator} from '@react-navigation/stack'
 import {NavigationContainer} from '@react-navigation/native'
 import {createDrawerNavigator} from '@react-navigation/drawer' */
 import HomeScreen from '../screens/Home/HomeScreen';
+import HomeScreen2 from '../screens/Home/HomeScreen2';
 import CategoriesScreen from '../screens/Categories/CategoriesScreen';
 import RecipeScreen from '../screens/Recipe/RecipeScreen';
 import RecipesListScreen from '../screens/RecipesList/RecipesListScreen';
@@ -42,7 +43,7 @@ function MainNavigator() {
 const MainNavigator = createStackNavigator(
   {
     Home: CategoriesScreen,
-    Categories: HomeScreen,
+    Categories: HomeScreen2,
     Recipe: RecipeScreen,
     RecipesList: RecipesListScreen,
     Ingredient: IngredientScreen,

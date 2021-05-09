@@ -39,7 +39,6 @@ export default class CategoriesScreen extends React.Component {
     }
 
     categoriesRequest = () => {
-        console.log("Comercios Tipo2:::")
         serviceApiGet(api.comercio_tipos)
             .then((response) => {
                 if (response.status) {

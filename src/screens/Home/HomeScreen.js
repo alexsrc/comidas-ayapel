@@ -1,5 +1,5 @@
 import React from 'react';
-import {FlatList, ScrollView, Text, View, TouchableHighlight, Image} from 'react-native';
+import {FlatList, Text, View, TouchableHighlight, Image} from 'react-native';
 import styles from './styles';
 import {serviceApiGet} from "../../ServiciosMaestros/request";
 import {api} from "../../ServiciosMaestros/apis";
@@ -10,7 +10,6 @@ export default class HomeScreen extends React.Component {
 
 
     static navigationOptions = ({navigation}) => {
-        console.log("TITLE2:::", navigation.getParam('title'))
         return {
             title: navigation.getParam('title')
         };
@@ -31,11 +30,9 @@ export default class HomeScreen extends React.Component {
     }
 
     comerciosRequest = (id)=>{
-        console.log("comerciosRequest:::")
         serviceApiGet(api.comercios+id)
             .then((response) => {
                 if (response.status) {
-                    console.log("RESPONSE:::",response.data)
                     this.setState({
                         companies:response.data
                     });
@@ -46,12 +43,12 @@ export default class HomeScreen extends React.Component {
             })
     }
 
-    onPressRecipe = item => {
-        this.props.navigation.navigate('Recipe', {item});
+    onPressRecipe = id => {
+        this.props.navigation.navigate('Search', {id});
     };
 
     renderRecipes = ({item}) => (
-        <TouchableHighlight underlayColor='#DDDDDD' onPress={() => this.onPressRecipe(item)}>
+        <TouchableHighlight underlayColor='#DDDDDD' onPress={() => this.onPressRecipe(item.key)}>
             <View style={styles.container}>
                 <Image style={styles.categoriesPhoto} source={{uri: item.photo_url}}/>
                 <Text style={styles.title}>{item.name}</Text>
