@@ -46,6 +46,15 @@ const styles = StyleSheet.create({
     height: 100,
     elevation: 3,
     display: 'inline-table',
+  },
+  groupText:{
+    display:"table-footer-group"
+  },
+  text:{
+    textAlign:"Left",
+    paddingLeft:5,
+    width:"50%",
+    float:"Left"
   }
 });
 

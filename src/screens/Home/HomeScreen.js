@@ -49,7 +49,7 @@ export default class HomeScreen extends React.Component {
                     onChangeText={text => params.handleSearch(text)}
                     // onClear={(text) => params.handleSearch('')}
                     placeholder="Buscar"
-                    value={params.data}
+                    value={params.value}
                 />
             )
         };
@@ -79,12 +79,25 @@ export default class HomeScreen extends React.Component {
             .then((response) => {
                 if (response.status) {
                     navigation.setParams({
-                        handleSearch: this.handleSearch,
-                        data: response.data
+                        handleSearch: ()=>this.handleSearch(value),
+                        data: response.data,
+                        value
                     });
                     this.setState({
                         companies:response.data,
-                        id:id
+                        id:id,
+                        value
+                    });
+                }else{
+                    navigation.setParams({
+                        handleSearch: this.handleSearch(value),
+                        data: [],
+                        value
+                    });
+                    this.setState({
+                        companies:[],
+                        id:id,
+                        value
                     });
                 }
             })
@@ -111,18 +124,18 @@ export default class HomeScreen extends React.Component {
     };
 
     onPressRecipe = id => {
-        this.props.navigation.navigate('Search', {id});
+        this.props.navigation.navigate('RecipesList', {id});
     };
 
     renderRecipes = ({ item }) => (
-        <TouchableHighlight underlayColor='rgba(73,182,77,1,0.9)' onPress={() => this.onPressRecipe(item)}>
+        <TouchableHighlight underlayColor='rgba(73,182,77,1,0.9)' onPress={() => this.onPressRecipe(item.key)}>
             <View style={styles.categoriesItemContainer}>
                 <Image style={styles.categoriesPhoto} source={{ uri: item.photo_url }} />
                 <View style={styles.letter}>
-                    <Text >{item.name}</Text>
-                    <View>
-                        <Text >{"Disponible"}</Text>
-                        <Text >Stock: {item.id}</Text>
+                    <Text style={styles.categoriesName}>{item.name}</Text>
+                    <View style={styles.groupText}>
+                        <Text style={styles.text}>{"Abierto"}</Text>
+                        <Text style={styles.text}>Stock: {item.id}</Text>
                     </View>
                 </View>
             </View>

@@ -11,7 +11,7 @@ import {serviceApiGet} from "../../ServiciosMaestros/request";
 import {api} from "../../ServiciosMaestros/apis";
 import {SearchBar} from "react-native-elements";
 import MenuImage from "../../components/MenuImage/MenuImage";
-import {getRecipesByCategoryName, getRecipesByIngredientName, getRecipesByRecipeName} from "../../data/MockDataAPI";
+import MenuButton from "../../components/MenuButton/MenuButton";
 
 export default class RecipesListScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
@@ -47,7 +47,7 @@ export default class RecipesListScreen extends React.Component {
               onChangeText={text => params.handleSearch(text)}
               //onClear={() => params.handleSearch('')}
               placeholder="Buscar"
-              value={params.data}
+              value={params.value}
           />
       )
     };
@@ -68,18 +68,31 @@ export default class RecipesListScreen extends React.Component {
 
   }
 
-  productRequest = (id)=>{
+  productRequest = (id,value="")=>{
     const { navigation } = this.props;
     serviceApiGet(api.products+id)
         .then((response) => {
           if (response.status) {
             navigation.setParams({
-              handleSearch: this.handleSearch,
-              data: response.data
+                handleSearch: this.handleSearch,
+                data: response.data.data,
+                value
             });
             this.setState({
-              products:response.data
+                products:response.data.data,
+                value
             });
+          }
+          else{
+              this.setState({
+                  products:[],
+                  value
+              });
+              navigation.setParams({
+                  handleSearch: this.handleSearch,
+                  data: [],
+                  value
+              });
           }
         })
         .catch((error) => {
@@ -97,13 +110,18 @@ export default class RecipesListScreen extends React.Component {
   }
 
   renderRecipes = ({ item }) => (
-    <TouchableHighlight underlayColor='rgba(73,182,77,1,0.9)' onPress={() => this.onPressRecipe(item)}>
-      <View style={styles.container}>
-        <Image style={styles.photo} source={{ uri: item.photo_url }} />
-        <Text style={styles.title}>{item.title}</Text>
-        <Text style={styles.category}>{item.title}</Text>
-      </View>
-    </TouchableHighlight>
+      <TouchableHighlight underlayColor='rgba(73,182,77,1,0.9)' onPress={() => this.onPressRecipe(item.key)}>
+          <View style={styles.categoriesItemContainer}>
+              <Image style={styles.categoriesPhoto} source={{ uri: item.photo_url }} />
+              <View style={styles.letter}>
+                  <Text style={styles.categoriesName}>{item.name}</Text>
+                  <View style={styles.groupText}>
+                      <Text style={styles.text}>{"Disponible"}</Text>
+                      <Text style={styles.text}>Stock: {item.id}</Text>
+                  </View>
+              </View>
+          </View>
+      </TouchableHighlight>
   );
 
   render() {
@@ -112,11 +130,13 @@ export default class RecipesListScreen extends React.Component {
         <FlatList
           vertical
           showsVerticalScrollIndicator={false}
-          numColumns={2}
+          numColumns={1}
           data={this.state.products}
           renderItem={this.renderRecipes}
           keyExtractor={item => `${item.key}`}
         />
+        <Image source={require('../../../assets/icons/shoppingcar.png')}/>
+
       </View>
     );
   }
