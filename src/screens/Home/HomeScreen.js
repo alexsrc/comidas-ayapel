@@ -12,7 +12,6 @@ import {api} from "../../ServiciosMaestros/apis";
 import {SearchBar} from "react-native-elements";
 import MenuImage from "../../components/MenuImage/MenuImage";
 
-
 let inter;
 
 export default class HomeScreen extends React.Component {

@@ -1,17 +1,17 @@
 import React from 'react';
 import {
-  FlatList,
-  Text,
-  View,
-  TouchableHighlight,
-  Image
+    FlatList,
+    Text,
+    View,
+    TouchableHighlight,
+    Image,
+    TouchableOpacity
 } from 'react-native';
 import styles from './styles';
 import {serviceApiGet} from "../../ServiciosMaestros/request";
 import {api} from "../../ServiciosMaestros/apis";
 import {SearchBar} from "react-native-elements";
 import MenuImage from "../../components/MenuImage/MenuImage";
-import MenuButton from "../../components/MenuButton/MenuButton";
 
 export default class RecipesListScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
@@ -56,8 +56,10 @@ export default class RecipesListScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      products: [],
-      value:"",
+        products: [],
+        value:"",
+        id:0,
+        nextPage:null
     };
   }
 
@@ -70,7 +72,10 @@ export default class RecipesListScreen extends React.Component {
 
   productRequest = (id,value="")=>{
     const { navigation } = this.props;
-    serviceApiGet(api.products+id)
+    const nextUrl=this.state.nextPage;
+    let url=api.products+id;
+    if(nextUrl)url=nextUrl;
+    serviceApiGet(url)
         .then((response) => {
           if (response.status) {
             navigation.setParams({
@@ -80,13 +85,16 @@ export default class RecipesListScreen extends React.Component {
             });
             this.setState({
                 products:response.data.data,
-                value
+                value,
+                id,
+                nextPage:response.data.next_page_url
             });
           }
           else{
               this.setState({
                   products:[],
-                  value
+                  value,
+                  id,
               });
               navigation.setParams({
                   handleSearch: this.handleSearch,
@@ -134,8 +142,14 @@ export default class RecipesListScreen extends React.Component {
           data={this.state.products}
           renderItem={this.renderRecipes}
           keyExtractor={item => `${item.key}`}
+          onEndReached={()=>this.productRequest(this.state.id,this.state.value)}
+          initialNumToRender={10}
         />
-        <Image source={require('../../../assets/icons/shoppingcar.png')}/>
+            <TouchableHighlight underlayColor='rgba(73,182,77,1,0.9)' style={styles.contener} onPress={() => console.log("hola")}>
+                <View style={styles.btnFlotante}>
+                    <Image style={styles.btnImage} source={require('../../../assets/icons/shoppingcar.png')}/>
+                </View>
+            </TouchableHighlight>
 
       </View>
     );
