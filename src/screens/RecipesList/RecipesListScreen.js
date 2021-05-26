@@ -70,24 +70,43 @@ export default class RecipesListScreen extends React.Component {
 
   }
 
+  _scrollInfiniteRequest=(id,value)=>{
+      this.productRequest(id,value);
+  }
+
   productRequest = (id,value="")=>{
     const { navigation } = this.props;
-    const nextUrl=this.state.nextPage;
+    let nextPage=parseInt(this.state.nextPage)+1;
+    console.log("ESTE ES NEXT PAGE:::",nextPage)
     let url=api.products+id;
-    if(nextUrl)url=nextUrl;
-    serviceApiGet(url)
+    if(nextPage){
+        url=url+"?page="+nextPage;
+    }
+      console.log(url)
+      serviceApiGet(url)
         .then((response) => {
           if (response.status) {
+              let data=[]
+              data=this.state.products;
+              if(nextPage){
+                  response.data.data.map((dat)=>{
+                      data.push(dat);
+                  })
+              }else{
+                  data=response.data.data
+              }
+
+              console.log("FROM:::",response.data.current_page)
             navigation.setParams({
                 handleSearch: this.handleSearch,
-                data: response.data.data,
+                data: data,
                 value
             });
             this.setState({
-                products:response.data.data,
+                products:data,
                 value,
                 id,
-                nextPage:response.data.next_page_url
+                nextPage:response.data.current_page
             });
           }
           else{
@@ -95,6 +114,7 @@ export default class RecipesListScreen extends React.Component {
                   products:[],
                   value,
                   id,
+                  nextPage:null
               });
               navigation.setParams({
                   handleSearch: this.handleSearch,
@@ -142,8 +162,9 @@ export default class RecipesListScreen extends React.Component {
           data={this.state.products}
           renderItem={this.renderRecipes}
           keyExtractor={item => `${item.key}`}
-          onEndReached={()=>this.productRequest(this.state.id,this.state.value)}
+          onEndReached={()=>this._scrollInfiniteRequest(this.state.id,this.state.value)}
           initialNumToRender={10}
+          onEndReachedThreshold={1}
         />
             <TouchableHighlight underlayColor='rgba(73,182,77,1,0.9)' style={styles.contener} onPress={() => console.log("hola")}>
                 <View style={styles.btnFlotante}>
