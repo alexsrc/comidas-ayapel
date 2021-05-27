@@ -73,46 +73,47 @@ export default class HomeScreen extends React.Component {
 
     comerciosRequest = (id,value="")=>{
         clearInterval(inter)
-        const { navigation } = this.props;
         serviceApiResponse({id,filter:value},api.comercios,"POST")
             .then((response) => {
                 if (response.status) {
-                    navigation.setParams({
-                        handleSearch: ()=>this.handleSearch(value),
-                        data: response.data,
-                        value
-                    });
+
                     this.setState({
                         companies:response.data,
                         id:id,
                         value
+                    },()=>{
+
                     });
                 }else{
-                    navigation.setParams({
-                        handleSearch: this.handleSearch(value),
-                        data: [],
-                        value
-                    });
                     this.setState({
                         companies:[],
                         id:id,
                         value
+                    },()=>{
                     });
                 }
             })
             .catch((error) => {
                 console.log("error:::",error)
             })
+        clearInterval(inter)
+
     }
 
     interval(text){
+        console.log(text)
+        const { navigation } = this.props;
+        navigation.setParams({
+            handleSearch: ()=>this.handleSearch(value),
+            data: [],
+            value
+        });
         inter = setInterval(()=>{
             this.comerciosRequest(this.state.id,text)
         },2000);
     }
 
     handleSearch = text => {
-        console.log(text)
         clearInterval(inter)
         this.setState({
             value:text,
