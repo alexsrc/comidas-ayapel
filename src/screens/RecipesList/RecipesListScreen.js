@@ -71,18 +71,18 @@ export default class RecipesListScreen extends React.Component {
             handleSearch: this.handleSearch,
             value: ""
         });
-        this.productRequest(navigation.getParam('id'))
+        this.productRequest(navigation.getParam('id'),"aceite",false)
     }
 
     _scrollInfiniteRequest = (id, value) => {
-        this.productRequest(id, value);
+        this.productRequest(id, value,true);
     }
 
     productRequest = (id, value = "", text = false) => {
         clearInterval(inter)
         let nextPage = parseInt(this.state.nextPage) + 1;
         let url = api.products + id;
-        if (nextPage && !text) {
+        if (nextPage && text) {
             url = url + "?page=" + nextPage;
         }
         console.log(url)
@@ -91,7 +91,7 @@ export default class RecipesListScreen extends React.Component {
                 if (response.status) {
                     let data = []
                     data = this.state.products;
-                    if (nextPage && !text) {
+                    if (nextPage && text) {
                         response.data.data.map((dat) => {
                             data.push(dat);
                         })
@@ -122,8 +122,8 @@ export default class RecipesListScreen extends React.Component {
 
     interval(text) {
         inter = setInterval(() => {
-            this.productRequest(this.state.id, text, true)
-        }, 2000);
+            this.productRequest(this.state.id, text, false)
+        }, 250);
     }
 
     handleSearch = text => {
