@@ -4,11 +4,10 @@ import {
     Text,
     View,
     TouchableHighlight,
-    Image,
-    TouchableOpacity
+    Image
 } from 'react-native';
 import styles from './styles';
-import {serviceApiGet, serviceApiResponse} from "../../ServiciosMaestros/request";
+import {serviceApiResponse} from "../../ServiciosMaestros/request";
 import {api} from "../../ServiciosMaestros/apis";
 import {SearchBar} from "react-native-elements";
 import MenuImage from "../../components/MenuImage/MenuImage";
@@ -71,7 +70,7 @@ export default class RecipesListScreen extends React.Component {
             handleSearch: this.handleSearch,
             value: ""
         });
-        this.productRequest(navigation.getParam('id'),"aceite",false)
+        this.productRequest(navigation.getParam('id'),"",false)
     }
 
     _scrollInfiniteRequest = (id, value) => {
@@ -161,7 +160,7 @@ export default class RecipesListScreen extends React.Component {
 
     render() {
         return (
-            <View>
+            <View style={{flex:1}}>
                 <FlatList
                     vertical
                     showsVerticalScrollIndicator={false}
