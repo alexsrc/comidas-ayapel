@@ -1,4 +1,4 @@
-import { createAppContainer } from 'react-navigation';
+import {createAppContainer} from 'react-navigation';
 import {createDrawerNavigator} from 'react-navigation-drawer'
 import {createStackNavigator} from 'react-navigation-stack'
 /* import React from 'react'
@@ -13,6 +13,7 @@ import DrawerContainer from '../screens/DrawerContainer/DrawerContainer';
 import IngredientScreen from '../screens/Ingredient/IngredientScreen';
 import SearchScreen from '../screens/Search/SearchScreen';
 import IngredientsDetailsScreen from '../screens/IngredientsDetails/IngredientsDetailsScreen';
+import DescriptionProduct from "../screens/DescriptionProduct/DescriptionProduct";
 
 /* const Stack = createStackNavigator();
 
@@ -40,28 +41,29 @@ function MainNavigator() {
 } */
 
 const MainNavigator = createStackNavigator(
-  {
-    Home: CategoriesScreen,
-    Categories: HomeScreen,
-    Recipe: RecipeScreen,
-    RecipesList: RecipesListScreen,
-    Ingredient: IngredientScreen,
-    Search: SearchScreen,
-    IngredientsDetails: IngredientsDetailsScreen
-  },
-  {
-    initialRouteName: 'Home',
-    // headerMode: 'float',
-    defaulfNavigationOptions: ({ navigation }) => ({
-      headerTitleStyle: {
-        fontWeight: 'bold',
-        textAlign: 'center',
-        alignSelf: 'center',
-        flex: 1,
-      }
-    })
-  }
-); 
+    {
+        Home: CategoriesScreen,
+        Categories: HomeScreen,
+        RecipesList: RecipesListScreen,
+        DescriptionProduct: DescriptionProduct,
+        Recipe: RecipeScreen,
+        Ingredient: IngredientScreen,
+        Search: SearchScreen,
+        IngredientsDetails: IngredientsDetailsScreen
+    },
+    {
+        initialRouteName: 'Home',
+        // headerMode: 'float',
+        defaulfNavigationOptions: ({navigation}) => ({
+            headerTitleStyle: {
+                fontWeight: 'bold',
+                textAlign: 'center',
+                alignSelf: 'center',
+                flex: 1,
+            }
+        })
+    }
+);
 
 /* const Drawer = createDrawerNavigator();
 
@@ -81,15 +83,15 @@ function DrawerStack() {
 } */
 
 const DrawerStack = createDrawerNavigator(
-  {
-    Main: MainNavigator
-  },
-  {
-    drawerPosition: 'left',
-    initialRouteName: 'Main',
-    drawerWidth: 250,
-    contentComponent: DrawerContainer
-  }
+    {
+        Main: MainNavigator
+    },
+    {
+        drawerPosition: 'left',
+        initialRouteName: 'Main',
+        drawerWidth: 250,
+        contentComponent: DrawerContainer
+    }
 );
 
 /* export default function AppContainer() {
