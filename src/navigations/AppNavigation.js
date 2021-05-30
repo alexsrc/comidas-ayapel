@@ -14,6 +14,7 @@ import IngredientScreen from '../screens/Ingredient/IngredientScreen';
 import SearchScreen from '../screens/Search/SearchScreen';
 import IngredientsDetailsScreen from '../screens/IngredientsDetails/IngredientsDetailsScreen';
 import DescriptionProduct from "../screens/DescriptionProduct/DescriptionProduct";
+import DescriptionShoppingCart from "../screens/DescriptionShoppingCart/DescriptionShoppingCart";
 
 /* const Stack = createStackNavigator();
 
@@ -46,6 +47,7 @@ const MainNavigator = createStackNavigator(
         Categories: HomeScreen,
         RecipesList: RecipesListScreen,
         DescriptionProduct: DescriptionProduct,
+        ShoppingCart: DescriptionShoppingCart,
         Recipe: RecipeScreen,
         Ingredient: IngredientScreen,
         Search: SearchScreen,

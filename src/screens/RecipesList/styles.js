@@ -64,6 +64,16 @@ const styles = StyleSheet.create({
     bottom: "3%",
     right: "3%",
   },
+  countShoppingCard:{
+    flex:1,
+    right: 0,
+    top:-8,
+    position: "absolute",
+    fontSize: 20, /* Cambiar el tamaño de la tipografia */
+    textTransform: "uppercase", /* Texto en mayusculas */
+    fontWeight: "bold",
+    zIndex:10000,
+  },
   btnFlotante: {
     position: "absolute",
     fontSize: 100, /* Cambiar el tamaño de la tipografia */

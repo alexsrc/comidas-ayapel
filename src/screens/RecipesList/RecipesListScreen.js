@@ -56,11 +56,17 @@ export default class RecipesListScreen extends React.Component {
 
     constructor(props) {
         super(props);
+        const {navigation} = props;
         this.state = {
             products: [],
             value: "",
             id: 0,
-            nextPage: null
+            nextPage: null,
+            shoppingCard:[],
+            countShoppingCard:0,
+            commerce:{
+                photo_url:navigation.getParam("photo_url")
+            }
         };
     }
 
@@ -84,7 +90,6 @@ export default class RecipesListScreen extends React.Component {
         if (nextPage && text) {
             url = url + "?page=" + nextPage;
         }
-        console.log(url)
         serviceApiResponse({id, filter: value}, url, "POST")
             .then((response) => {
                 if (response.status) {
@@ -139,8 +144,38 @@ export default class RecipesListScreen extends React.Component {
 
     };
 
+    addShoppingCard = (id,quantity,description)=>{
+        let shoppingCard=this.state.shoppingCard;
+        let countShoppingCard=this.state.countShoppingCard;
+        shoppingCard.push({
+            id,
+            quantity,
+            amount:(this.searchProduct(id)).amount*quantity,
+            description
+        })
+
+        this.setState({
+            shoppingCard,
+            countShoppingCard:countShoppingCard+quantity
+        });
+    }
+
+    viewShoppingCart(){
+        let {shoppingCart,countShoppingCard,commerce}=this.state;
+        console.log("COMMERCE::: ",commerce)
+        if(countShoppingCard>0) this.props.navigation.navigate('ShoppingCart', {shoppingCart,commerce});
+    }
+
+    searchProduct=(id)=>{
+        let products=this.state.products;
+        return products.filter((listProduct)=>{
+            if(listProduct.key===id)return listProduct;
+        })[0];
+    }
+
     onPressRecipe(id,name,photo_url,description,amount) {
-        this.props.navigation.navigate('DescriptionProduct', {id,name,photo_url,description,amount});
+        let func=()=>this.addShoppingCard;
+        this.props.navigation.navigate('DescriptionProduct', {id,name,photo_url,description,amount,func});
     }
 
     renderRecipes = ({item}) => (
@@ -173,9 +208,14 @@ export default class RecipesListScreen extends React.Component {
                     onEndReachedThreshold={1}
                 />
                 <TouchableHighlight underlayColor='rgba(73,182,77,1,0.9)' style={styles.contener}
-                                    onPress={() => console.log("hola")}>
+                                    onPress={() => this.viewShoppingCart()}>
                     <View style={styles.btnFlotante}>
-                        <Image style={styles.btnImage} source={require('../../../assets/icons/shoppingcar.png')}/>
+                        <Text style={styles.countShoppingCard}>
+                            {this.state.countShoppingCard}
+                        </Text>
+                        <View style={styles.btnFlotante}>
+                            <Image style={styles.btnImage} source={require('../../../assets/icons/shoppingcar.png')}/>
+                        </View>
                     </View>
                 </TouchableHighlight>
 

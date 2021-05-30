@@ -44,6 +44,32 @@ const styles = StyleSheet.create({
         marginRight:10,
         marginLeft:10
     },
+    textTitle:{
+        fontSize: 14,
+        fontWeight: 'bold',
+        textAlign: 'left',
+        color: '#333333',
+        marginLeft: 10,
+        marginRight: 10,
+        marginTop: 10,
+    },
+    textInput:{
+        flex:1,
+        maxWidth:"100%",
+        maxHeight: "30%",
+        borderWidth:1,
+        borderColor:"grey",
+        marginTop:10,
+        marginRight:10,
+        marginLeft:10,
+        alignItems:"flex-start",
+        justifyContent:"flex-start",
+        borderRadius:20,
+        textAlign:'justify',
+        textAlignVertical:'top',
+        padding:10
+
+    },
     conteinerButton:{
         position: 'absolute',
         bottom: '3%',

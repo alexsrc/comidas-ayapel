@@ -2,13 +2,14 @@ import React from "react";
 import {
     View,
     Text,
-    Image, TouchableHighlight
+    Image,
+    TouchableHighlight,
+    TextInput
 } from 'react-native';
 import styles from './styles';
 
 export default class DescriptionProduct extends React.Component{
     static navigationOptions = ({ navigation }) => {
-        console.log(navigation.getParam('name'))
         return {
             title: navigation.getParam('name')
         };
@@ -18,13 +19,15 @@ export default class DescriptionProduct extends React.Component{
         super(props);
         const {navigation} = props;
         this.state = {
+            id:navigation.getParam('id'),
             name:navigation.getParam('name'),
             photo_url:navigation.getParam('photo_url'),
             description:navigation.getParam('description'),
             amountFormat:(this.numberFormat(navigation.getParam('amount'))),
             amount:(navigation.getParam('amount')),
             quantity:1,
-            totalAmount:(this.numberFormat(navigation.getParam('amount')*1))
+            totalAmount:(this.numberFormat(navigation.getParam('amount')*1)),
+            descriptionProductCard:""
         }
     }
 
@@ -45,8 +48,18 @@ export default class DescriptionProduct extends React.Component{
                 totalAmount: this.numberFormat(amount*quantity)
             })
         }
+    }
 
+    addShoppingCard(){
+        let funct=this.props.navigation.getParam("func")();
+        funct(this.state.id,this.state.quantity,this.state.descriptionProductCard);
+        this.props.navigation.goBack()
+    }
 
+    onChange=(text)=>{
+       this.setState({
+           descriptionProductCard:text
+       })
     }
 
     render(){
@@ -64,6 +77,18 @@ export default class DescriptionProduct extends React.Component{
                         {this.state.amountFormat}
                     </Text>
                     <View style={styles.line}/>
+
+                    <Text style={styles.textTitle}>
+                        {"Añadir descripción:"}
+                    </Text>
+                    <TextInput
+                        value={this.state.descriptionProductCard}
+                        onChange={(target)=>this.onChange(target.nativeEvent.text)}
+                        style={styles.textInput}
+                        underlineColorAndroid="transparent"
+                        numberOfLines={10}
+                        multiline={true}
+                    />
                 </View>
                 <View style={styles.conteinerButton}>
                     <View style={styles.button1} >
@@ -80,7 +105,7 @@ export default class DescriptionProduct extends React.Component{
                         </TouchableHighlight>
                     </View>
                     <TouchableHighlight  underlayColor='rgba(73,182,77,1,0.9)' style={styles.button2}
-                                        onPress={() => console.log("hola")}>
+                                        onPress={() => this.addShoppingCard()}>
                         <Text>
                             Añadir {this.state.totalAmount}
                         </Text>

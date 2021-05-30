@@ -3,7 +3,6 @@ import {api} from "../ServiciosMaestros/apis";
 
 
 export const comerciosRequest = (id)=>{
-  console.log("Comercios:::")
   serviceApiGet(api.comercios+id)
       .then((response) => {
         if (response.status) {
