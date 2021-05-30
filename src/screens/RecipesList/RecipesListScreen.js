@@ -139,12 +139,12 @@ export default class RecipesListScreen extends React.Component {
 
     };
 
-    onPressRecipe(id,name,photo_url,description) {
-        this.props.navigation.navigate('DescriptionProduct', {id,name,photo_url,description});
+    onPressRecipe(id,name,photo_url,description,amount) {
+        this.props.navigation.navigate('DescriptionProduct', {id,name,photo_url,description,amount});
     }
 
     renderRecipes = ({item}) => (
-        <TouchableHighlight underlayColor='rgba(73,182,77,1,0.9)' onPress={() => this.onPressRecipe(item.key,item.name,item.photo_url, item.description)}>
+        <TouchableHighlight underlayColor='rgba(73,182,77,1,0.9)' onPress={() => this.onPressRecipe(item.key,item.name,item.photo_url, item.description,item.amount)}>
             <View style={styles.categoriesItemContainer}>
                 <Image style={styles.categoriesPhoto} source={{uri: item.photo_url}}/>
                 <View style={styles.letter}>

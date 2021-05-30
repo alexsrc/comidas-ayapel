@@ -43,6 +43,68 @@ const styles = StyleSheet.create({
         marginTop:10,
         marginRight:10,
         marginLeft:10
+    },
+    conteinerButton:{
+        position: 'absolute',
+        bottom: '3%',
+        left: '3%',
+        right: '3%',
+        flex: 1,
+        flexDirection: 'row',
+        alignItems:'center',
+        justifyContent:'center',
+    },
+    button1:{
+        flex:1,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        width:'50%',
+        alignItems:'center',
+        textAlign:'center',
+        marginRight:'2%',
+        marginLeft:'2%',
+        backgroundColor:'#7fffd4',
+        borderRadius:20,
+        borderColor: 'blue',
+        height: 25,
+        textAlignVertical:'center'
+    },
+    buttonPlus:{
+        width:'25%',
+        marginRight:"2%",
+        marginLeft:"2%",
+        justifyContent: 'center',
+        alignItems:'center',
+        textAlign:'center',
+
+    },
+    text:{
+        width:'50%',
+        justifyContent: 'center',
+        alignItems:'center',
+        textAlign:'center',
+    },
+    buttonMinus:{
+        width:'25%',
+        marginRight:"2%",
+        marginLeft:"2%",
+        justifyContent: 'center',
+        alignItems:'center',
+        textAlign:'center',
+    },
+    button2:{
+        flex:1,
+        justifyContent: 'center',
+        width:'50%',
+        alignItems:'center',
+        textAlign:'center',
+        marginRight:'2%',
+        marginLeft:'2%',
+        backgroundColor:'#7fffd4',
+        borderRadius:20,
+        borderColor: 'blue',
+        height: 25,
+        textAlignVertical:'center'
     }
 });
 
