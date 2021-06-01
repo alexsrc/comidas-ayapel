@@ -122,12 +122,12 @@ export default class HomeScreen extends React.Component {
         })
     };
 
-    onPressRecipe = (id,photo_url) => {
-        this.props.navigation.navigate('RecipesList', {id,photo_url});
+    onPressRecipe = (id,photo_url,commerceName) => {
+        this.props.navigation.navigate('RecipesList', {id,photo_url,commerceName});
     };
 
     renderRecipes = ({ item }) => (
-        <TouchableHighlight underlayColor='rgba(73,182,77,1,0.9)' onPress={() => this.onPressRecipe(item.key,item.photo_url)}>
+        <TouchableHighlight underlayColor='rgba(73,182,77,1,0.9)' onPress={() => this.onPressRecipe(item.key,item.photo_url,item.name)}>
             <View style={styles.categoriesItemContainer}>
                 <Image style={styles.categoriesPhoto} source={{ uri: item.photo_url }} />
                 <View style={styles.letter}>

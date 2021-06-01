@@ -4,7 +4,7 @@ import axios from 'axios';
 
 import { api } from "./apis";
 
-const baseUrl = "https://9be60c102c4a.ngrok.io";
+const baseUrl = "https://924a83e63601.ngrok.io";
 
 let aux = 0;
 

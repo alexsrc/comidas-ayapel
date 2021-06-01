@@ -65,7 +65,8 @@ export default class RecipesListScreen extends React.Component {
             shoppingCard:[],
             countShoppingCard:0,
             commerce:{
-                photo_url:navigation.getParam("photo_url")
+                photo_url:navigation.getParam("photo_url"),
+                commerceName:navigation.getParam("commerceName"),
             }
         };
     }
@@ -147,10 +148,12 @@ export default class RecipesListScreen extends React.Component {
     addShoppingCard = (id,quantity,description)=>{
         let shoppingCard=this.state.shoppingCard;
         let countShoppingCard=this.state.countShoppingCard;
+        let product=this.searchProduct(id);
         shoppingCard.push({
             id,
             quantity,
-            amount:(this.searchProduct(id)).amount*quantity,
+            photo_url: (product).photo_url,
+            amount:(product).amount*quantity,
             description
         })
 
@@ -161,9 +164,9 @@ export default class RecipesListScreen extends React.Component {
     }
 
     viewShoppingCart(){
-        let {shoppingCart,countShoppingCard,commerce}=this.state;
+        let {shoppingCard,countShoppingCard,commerce}=this.state;
         console.log("COMMERCE::: ",commerce)
-        if(countShoppingCard>0) this.props.navigation.navigate('ShoppingCart', {shoppingCart,commerce});
+        if(countShoppingCard>0) this.props.navigation.navigate('ShoppingCart', {shoppingCard,commerce});
     }
 
     searchProduct=(id)=>{

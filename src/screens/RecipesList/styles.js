@@ -14,7 +14,6 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     padding: 5,
     textAlign: 'center',
-
   },
   categoriesPhoto: {
     width: '50%',
