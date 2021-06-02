@@ -1,10 +1,9 @@
 import { fetch as fetchPolyfill } from "whatwg-fetch";
 import { AsyncStorage} from 'react-native';
-import axios from 'axios';
 
 import { api } from "./apis";
 
-const baseUrl = "https://924a83e63601.ngrok.io";
+const baseUrl = "https://81e7913cbd20.ngrok.io";
 
 let aux = 0;
 

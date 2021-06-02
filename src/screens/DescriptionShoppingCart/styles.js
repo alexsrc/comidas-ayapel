@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
     },
     categoriesPhotoList: {
-        width: '50%',
+        width: '30%',
         height: 100,
         padding:"0%",
         borderRadius: 20,
@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
         flex:1,
         flexDirection: 'column',
         alignItems: 'flex-start',
-        padding:5
+        padding:5,
     },
     commerceName:{
         flex:1,
@@ -90,27 +90,47 @@ const styles = StyleSheet.create({
         textAlign: 'left',
     },
     letterList:{
-        width: '50%',
-        height: 100,
+        width: '70%',
+        maxWidth: '70%',
         elevation: 3,
         display: 'flex',
-    },
-    groupTextList:{
-        flex:1,
-        flexDirection: 'row',
-        alignItems: 'flex-end'
     },
     categoriesNameList: {
         flex: 1,
         fontSize: 20,
         fontWeight: 'bold',
-        textAlign: 'center',
+        textAlign: 'left',
+        marginLeft:10,
+        marginRight:10,
         color: '#333333',
+        width:"100%",
+
+    },
+    groupTextList:{
+        flex:1,
+        flexDirection: 'row',
+        alignItems: 'flex-end',
+        padding:5,
+        borderColor: 'red',
+        borderWidth: 0.5,
     },
     textList:{
+        flex:1,
         textAlign:"left",
         paddingLeft:5,
-        width:"50%"
+        paddingRight:5,
+        width:"100%",
+    },
+
+    icon:{
+        flex:1,
+        textAlign:"right",
+        fontSize: 15,
+        paddingLeft:5,
+        paddingRight:5,
+        width:"100%",
+        height:"100%",
+        justifyContent: "center",
     },
 });
 

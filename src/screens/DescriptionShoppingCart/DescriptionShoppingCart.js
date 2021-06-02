@@ -4,10 +4,12 @@ import {
     Text,
     Image,
     FlatList,
-    TouchableHighlight
+    TouchableHighlight,
 } from "react-native";
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
+import { faCoffee } from '@fortawesome/free-solid-svg-icons'
 import styles from './styles';
-
+import {numberFormat} from '../../ServiciosMaestros/general';
 export default class DescriptionShoppingCart extends React.Component {
     static navigationOptions = ({navigation}) => {
         return {
@@ -26,14 +28,14 @@ export default class DescriptionShoppingCart extends React.Component {
     }
 
     renderRecipes = ({item}) => (
-        <TouchableHighlight underlayColor='rgba(73,182,77,1,0.9)' onPress={() => console.log(item.key,item.name,item.photo_url, item.description,item.amount)}>
+        <TouchableHighlight  underlayColor='rgba(73,182,77,1,0.9)' onPress={() => console.log(item.key,item.name,item.photo_url, item.description,item.amount)}>
             <View style={styles.categoriesItemContainerList}>
                 <Image style={styles.categoriesPhotoList} source={{uri: item.photo_url}}/>
                 <View style={styles.letterList}>
-                    <Text style={styles.categoriesNameList}>{item.name}</Text>
-                    <View style={styles.groupText}>
-                        <Text style={styles.textList}>{"Disponible"}</Text>
-                        <Text style={styles.textList}>Stock: {item.id}</Text>
+                    <Text style={styles.categoriesNameList}>{item.name} </Text>
+                    <View style={styles.groupTextList}>
+                        <Text style={styles.textList}>Total: {numberFormat(item.amount)}</Text>
+                        <FontAwesomeIcon icon={ faCoffee } />
                     </View>
                 </View>
             </View>
@@ -55,7 +57,7 @@ export default class DescriptionShoppingCart extends React.Component {
                     </View>
                 </View>
                 <FlatList
-                    style={{flex:1}}
+                    style={{flex:1,margin:0}}
                     vertical
                     showsVerticalScrollIndicator={false}
                     numColumns={1}

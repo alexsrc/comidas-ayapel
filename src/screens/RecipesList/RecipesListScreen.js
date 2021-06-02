@@ -152,6 +152,7 @@ export default class RecipesListScreen extends React.Component {
         shoppingCard.push({
             id,
             quantity,
+            name:(product).name,
             photo_url: (product).photo_url,
             amount:(product).amount*quantity,
             description
