@@ -108,11 +108,9 @@ const styles = StyleSheet.create({
     },
     groupTextList:{
         flex:1,
-        flexDirection: 'row',
+        flexDirection: 'column',
         alignItems: 'flex-end',
         padding:5,
-        borderColor: 'red',
-        borderWidth: 0.5,
     },
     textList:{
         flex:1,
@@ -121,16 +119,24 @@ const styles = StyleSheet.create({
         paddingRight:5,
         width:"100%",
     },
-
-    icon:{
+    containerImage:{
         flex:1,
-        textAlign:"right",
-        fontSize: 15,
+        alignContent:"flex-start",
+        alignItems:"flex-start",
+        textAlign:"left",
         paddingLeft:5,
         paddingRight:5,
-        width:"100%",
-        height:"100%",
-        justifyContent: "center",
+        padding:0,
+        width:"100%"
+
+    },
+    icon:{
+        flex:1,
+        textAlign:"left",
+        fontSize: 15,
+        width:20,
+        height:20,
+        justifyContent: "flex-end",
     },
 });
 

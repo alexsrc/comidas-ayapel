@@ -6,10 +6,9 @@ import {
     FlatList,
     TouchableHighlight,
 } from "react-native";
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { faCoffee } from '@fortawesome/free-solid-svg-icons'
 import styles from './styles';
 import {numberFormat} from '../../ServiciosMaestros/general';
+
 export default class DescriptionShoppingCart extends React.Component {
     static navigationOptions = ({navigation}) => {
         return {
@@ -20,7 +19,6 @@ export default class DescriptionShoppingCart extends React.Component {
     constructor(props) {
         super(props);
         let {navigation}=props;
-        console.log("SHOPPINGCART:::",navigation.getParam("shoppingCard"))
         this.state={
             commerce:navigation.getParam("commerce"),
             products:navigation.getParam("shoppingCard")
@@ -28,18 +26,20 @@ export default class DescriptionShoppingCart extends React.Component {
     }
 
     renderRecipes = ({item}) => (
-        <TouchableHighlight  underlayColor='rgba(73,182,77,1,0.9)' onPress={() => console.log(item.key,item.name,item.photo_url, item.description,item.amount)}>
+        <View>
             <View style={styles.categoriesItemContainerList}>
                 <Image style={styles.categoriesPhotoList} source={{uri: item.photo_url}}/>
                 <View style={styles.letterList}>
                     <Text style={styles.categoriesNameList}>{item.name} </Text>
                     <View style={styles.groupTextList}>
                         <Text style={styles.textList}>Total: {numberFormat(item.amount)}</Text>
-                        <FontAwesomeIcon icon={ faCoffee } />
+                        <TouchableHighlight style={styles.containerImage} onPress={() => console.log(item.id,item.name,item.photo_url, item.description,item.amount)}>
+                            <Image style={styles.icon} source={require('../../../assets/icons/eye-open.png')}/>
+                        </TouchableHighlight>
                     </View>
                 </View>
             </View>
-        </TouchableHighlight>
+        </View>
     );
 
     render() {
