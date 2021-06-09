@@ -1,7 +1,8 @@
 const styles = StyleSheet.create({
     container:{
         margin:0,
-        flex:1
+        flex:1,
+        alignItems:"center",
     },
     containerCommerce:{
         flex: 1,
@@ -16,13 +17,13 @@ const styles = StyleSheet.create({
         textAlign: 'left',
         maxWidth:"100%",
         maxHeight: "15%",
+        minHeight: "15%"
     },
     categoriesPhoto: {
-        width: '50%',
-        height: "100%",
+        minHeight: "100%",
         padding:"0%",
         shadowColor: 'blue',
-        maxWidth:"30%",
+        maxWidth:"32.5%",
         maxHeight: "100%",
         shadowRadius: 5,
         shadowOpacity: 1.0,
@@ -32,7 +33,7 @@ const styles = StyleSheet.create({
     },
     categoriesPhotoList: {
         width: '30%',
-        height: 100,
+        minHeight: 100,
         padding:"0%",
         borderRadius: 20,
         shadowColor: 'blue',
@@ -138,6 +139,20 @@ const styles = StyleSheet.create({
         height:20,
         justifyContent: "flex-end",
     },
+    button:{
+        flex:1,
+        position:"absolute",
+        bottom: '1%',
+        justifyContent: 'center',
+        width:'90%',
+        alignItems:'center',
+        textAlign:'center',
+        backgroundColor:'#7fffd4',
+        borderRadius:20,
+        borderColor: 'blue',
+        height: "5%",
+        textAlignVertical:'center',
+    }
 });
 
 import { StyleSheet } from 'react-native';

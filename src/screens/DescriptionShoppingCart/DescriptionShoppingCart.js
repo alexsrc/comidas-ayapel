@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import styles from './styles';
 import {numberFormat} from '../../ServiciosMaestros/general';
+import {Linking} from "react-native";
 
 export default class DescriptionShoppingCart extends React.Component {
     static navigationOptions = ({navigation}) => {
@@ -19,10 +20,19 @@ export default class DescriptionShoppingCart extends React.Component {
     constructor(props) {
         super(props);
         let {navigation}=props;
+        let total=0;
+        navigation.getParam("shoppingCard").map((t)=>{
+            total+=t.amount;
+        })
         this.state={
             commerce:navigation.getParam("commerce"),
-            products:navigation.getParam("shoppingCard")
+            products:navigation.getParam("shoppingCard"),
+            total:total
         }
+    }
+
+    sendMessageWhatsapp(){
+        Linking.openURL('whatsapp://send?text=' + "hola mundo!" + '&phone=57' + 3205677440);
     }
 
     renderRecipes = ({item}) => (
@@ -57,7 +67,7 @@ export default class DescriptionShoppingCart extends React.Component {
                     </View>
                 </View>
                 <FlatList
-                    style={{flex:1,margin:0}}
+                    style={{flex:1,margin:0,width:"100%",marginBottom:"11%"}}
                     vertical
                     showsVerticalScrollIndicator={false}
                     numColumns={1}
@@ -65,9 +75,11 @@ export default class DescriptionShoppingCart extends React.Component {
                     renderItem={this.renderRecipes}
                     keyExtractor={item => `${item.key}`}
                 />
-                <Text>
-                    {"Carrito"}
-                </Text>
+                <TouchableHighlight style={styles.button} onPress={()=>this.sendMessageWhatsapp()}>
+                    <Text style={{fontSize:15}}>
+                        {"Pedir"} {numberFormat(this.state.total)}
+                    </Text>
+                </TouchableHighlight>
             </View>
         )
     }

@@ -6,6 +6,7 @@ import {
     TouchableHighlight,
     TextInput
 } from 'react-native';
+import {numberFormat} from "../../ServiciosMaestros/general";
 import styles from './styles';
 
 export default class DescriptionProduct extends React.Component{
@@ -26,14 +27,11 @@ export default class DescriptionProduct extends React.Component{
             amountFormat:(this.numberFormat(navigation.getParam('amount'))),
             amount:(navigation.getParam('amount')),
             quantity:1,
-            totalAmount:(this.numberFormat(navigation.getParam('amount')*1)),
+            totalAmount:(numberFormat(navigation.getParam('amount')*1)),
             descriptionProductCard:""
         }
     }
 
-    numberFormat = (value) =>{
-        return '$' + value.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
-    }
 
     plusOrMinusProduct(action){
         let quantity = this.state.quantity;
