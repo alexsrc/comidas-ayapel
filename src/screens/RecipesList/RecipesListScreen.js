@@ -166,7 +166,6 @@ export default class RecipesListScreen extends React.Component {
 
     viewShoppingCart(){
         let {shoppingCard,countShoppingCard,commerce}=this.state;
-        console.log("COMMERCE::: ",commerce)
         if(countShoppingCard>0) this.props.navigation.navigate('ShoppingCart', {shoppingCard,commerce});
     }
 

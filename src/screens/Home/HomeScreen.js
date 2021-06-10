@@ -101,7 +101,6 @@ export default class HomeScreen extends React.Component {
     }
 
     interval(text){
-        console.log(text)
         const { navigation } = this.props;
         navigation.setParams({
             handleSearch: ()=>this.handleSearch(value),

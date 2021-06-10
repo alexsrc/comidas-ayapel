@@ -42,7 +42,6 @@ export default class CategoriesScreen extends React.Component {
         serviceApiGet(api.comercio_tipos)
             .then((response) => {
                 if (response.status) {
-                    console.log(response.data)
                     this.setState({
                         categories: response.data
                     });
@@ -57,7 +56,6 @@ export default class CategoriesScreen extends React.Component {
     onPressCategory = item => {
         const title = item.name;
         const id = item.key;
-        console.log("TITLE:::", title)
         this.props.navigation.navigate('Categories', {id, title});
     };
 

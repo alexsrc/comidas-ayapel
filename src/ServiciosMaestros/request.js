@@ -3,7 +3,7 @@ import { AsyncStorage} from 'react-native';
 
 import { api } from "./apis";
 
-const baseUrl = "https://21f5c62583c1.ngrok.io";
+const baseUrl = "https://821de15b8542.ngrok.io";
 
 let aux = 0;
 
@@ -137,7 +137,6 @@ const checkStatus = (response) => {
   if (response.status >= 200 && response.status < 300) {
     return response;
   } else {
-    console.log(response.statusText,"el response:::::")
     let error = new Error(response.statusText);
     if (response.status === 500) {
       error = new Error(
