@@ -3,7 +3,7 @@ import { AsyncStorage} from 'react-native';
 
 import { api } from "./apis";
 
-const baseUrl = "https://084c1dce6aff.ngrok.io";
+const baseUrl = "https://58c329bae970.ngrok.io";
 
 let aux = 0;
 

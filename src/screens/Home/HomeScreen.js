@@ -86,7 +86,6 @@ export default class HomeScreen extends React.Component {
         }
         serviceApiResponse({id, filter: value}, url, "POST")
             .then((response) => {
-                console.log("COMPANIES:::", response)
                 if (response.status) {
                     let data = []
                     data = this.state.companies;
@@ -124,7 +123,6 @@ export default class HomeScreen extends React.Component {
             this.comerciosRequest(this.state.id, text, false)
         }, 250);
     }
-
     handleSearch = text => {
         const {navigation} = this.props;
         navigation.setParams({

@@ -72,16 +72,17 @@ const styles = StyleSheet.create({
     textTransform: "uppercase", /* Texto en mayusculas */
     fontWeight: "bold",
     zIndex:10000,
+    color:"red"
   },
   btnFlotante: {
     position: "absolute",
     fontSize: 100, /* Cambiar el tamaño de la tipografia */
     textTransform: "uppercase", /* Texto en mayusculas */
     fontWeight: "bold", /* Fuente en negrita o bold */
-    color: "#ffffff", /* Color del texto */
+    color: "blue", /* Color del texto */
     borderRadius: 50, /* Borde del boton */
     letterSpacing: 2, /* Espacio entre letras */
-    backgroundColor: "white", /* Color de fondo */
+    backgroundColor: "yellow", /* Color de fondo */
     //radius:10,
     width:"100%",
     height:"100%",
