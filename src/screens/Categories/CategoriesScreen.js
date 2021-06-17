@@ -11,6 +11,7 @@ import {getNumberOfRecipes} from '../../data/MockDataAPI';
 import MenuImage from "../../components/MenuImage/MenuImage";
 import {serviceApiGet} from "../../ServiciosMaestros/request";
 import {api} from "../../ServiciosMaestros/apis";
+import PrincipalComponent from "../Principal/PrincipalComponent";
 
 export default class CategoriesScreen extends React.Component {
 
@@ -72,13 +73,15 @@ export default class CategoriesScreen extends React.Component {
     render() {
         return (
             <View>
-                <FlatList
-                    vertical
-                    showsVerticalScrollIndicator={false}
-                    data={this.state.categories}
-                    renderItem={this.renderCategory}
-                    keyExtractor={item => `${item.key}`}
-                />
+                <PrincipalComponent>
+                    <FlatList
+                        vertical
+                        showsVerticalScrollIndicator={false}
+                        data={this.state.categories}
+                        renderItem={this.renderCategory}
+                        keyExtractor={item => `${item.key}`}
+                    />
+                </PrincipalComponent>
             </View>
         );
     }

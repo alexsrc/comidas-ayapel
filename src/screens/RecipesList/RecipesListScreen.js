@@ -11,6 +11,7 @@ import {serviceApiResponse} from "../../ServiciosMaestros/request";
 import {api} from "../../ServiciosMaestros/apis";
 import {SearchBar} from "react-native-elements";
 import MenuImage from "../../components/MenuImage/MenuImage";
+import PrincipalComponent from "../Principal/PrincipalComponent";
 
 let inter;
 
@@ -62,11 +63,11 @@ export default class RecipesListScreen extends React.Component {
             value: "",
             id: 0,
             nextPage: null,
-            shoppingCard:[],
-            countShoppingCard:0,
-            commerce:{
-                photo_url:navigation.getParam("photo_url"),
-                commerceName:navigation.getParam("commerceName"),
+            shoppingCard: [],
+            countShoppingCard: 0,
+            commerce: {
+                photo_url: navigation.getParam("photo_url"),
+                commerceName: navigation.getParam("commerceName"),
             }
         };
     }
@@ -77,11 +78,11 @@ export default class RecipesListScreen extends React.Component {
             handleSearch: this.handleSearch,
             value: ""
         });
-        this.productRequest(navigation.getParam('id'),"",false)
+        this.productRequest(navigation.getParam('id'), "", false)
     }
 
     _scrollInfiniteRequest = (id, value) => {
-        this.productRequest(id, value,true);
+        this.productRequest(id, value, true);
     }
 
     productRequest = (id, value = "", text = false) => {
@@ -145,44 +146,45 @@ export default class RecipesListScreen extends React.Component {
 
     };
 
-    addShoppingCard = (id,quantity,description)=>{
-        let shoppingCard=this.state.shoppingCard;
-        let countShoppingCard=this.state.countShoppingCard;
-        let product=this.searchProduct(id);
+    addShoppingCard = (id, quantity, description) => {
+        let shoppingCard = this.state.shoppingCard;
+        let countShoppingCard = this.state.countShoppingCard;
+        let product = this.searchProduct(id);
         shoppingCard.push({
             id,
             quantity,
-            name:(product).name,
+            name: (product).name,
             photo_url: (product).photo_url,
-            amount:(product).amount*quantity,
+            amount: (product).amount * quantity,
             description
         })
 
         this.setState({
             shoppingCard,
-            countShoppingCard:countShoppingCard+quantity
+            countShoppingCard: countShoppingCard + quantity
         });
     }
 
-    viewShoppingCart(){
-        let {shoppingCard,countShoppingCard,commerce}=this.state;
-        if(countShoppingCard>0) this.props.navigation.navigate('ShoppingCart', {shoppingCard,commerce});
+    viewShoppingCart() {
+        let {shoppingCard, countShoppingCard, commerce} = this.state;
+        if (countShoppingCard > 0) this.props.navigation.navigate('ShoppingCart', {shoppingCard, commerce});
     }
 
-    searchProduct=(id)=>{
-        let products=this.state.products;
-        return products.filter((listProduct)=>{
-            if(listProduct.key===id)return listProduct;
+    searchProduct = (id) => {
+        let products = this.state.products;
+        return products.filter((listProduct) => {
+            if (listProduct.key === id) return listProduct;
         })[0];
     }
 
-    onPressRecipe(id,name,photo_url,description,amount) {
-        let func=()=>this.addShoppingCard;
-        this.props.navigation.navigate('DescriptionProduct', {id,name,photo_url,description,amount,func});
+    onPressRecipe(id, name, photo_url, description, amount) {
+        let func = () => this.addShoppingCard;
+        this.props.navigation.navigate('DescriptionProduct', {id, name, photo_url, description, amount, func});
     }
 
     renderRecipes = ({item}) => (
-        <TouchableHighlight underlayColor='rgba(73,182,77,1,0.9)' onPress={() => this.onPressRecipe(item.key,item.name,item.photo_url, item.description,item.amount)}>
+        <TouchableHighlight underlayColor='rgba(73,182,77,1,0.9)'
+                            onPress={() => this.onPressRecipe(item.key, item.name, item.photo_url, item.description, item.amount)}>
             <View style={styles.categoriesItemContainer}>
                 <Image style={styles.categoriesPhoto} source={{uri: item.photo_url}}/>
                 <View style={styles.letter}>
@@ -198,30 +200,32 @@ export default class RecipesListScreen extends React.Component {
 
     render() {
         return (
-            <View style={{flex:1}}>
-                <FlatList
-                    vertical
-                    showsVerticalScrollIndicator={false}
-                    numColumns={1}
-                    data={this.state.products}
-                    renderItem={this.renderRecipes}
-                    keyExtractor={item => `${item.key}`}
-                    onEndReached={() => this._scrollInfiniteRequest(this.state.id, this.state.value)}
-                    initialNumToRender={10}
-                    onEndReachedThreshold={1}
-                />
-                <TouchableHighlight underlayColor='rgba(73,182,77,1,0.9)' style={styles.contener}
-                                    onPress={() => this.viewShoppingCart()}>
-                    <View style={styles.btnFlotante}>
-                        <Text style={styles.countShoppingCard}>
-                            {this.state.countShoppingCard}
-                        </Text>
+            <View style={{flex: 1}}>
+                <PrincipalComponent>
+                    <FlatList
+                        vertical
+                        showsVerticalScrollIndicator={false}
+                        numColumns={1}
+                        data={this.state.products}
+                        renderItem={this.renderRecipes}
+                        keyExtractor={item => `${item.key}`}
+                        onEndReached={() => this._scrollInfiniteRequest(this.state.id, this.state.value)}
+                        initialNumToRender={10}
+                        onEndReachedThreshold={1}
+                    />
+                    <TouchableHighlight underlayColor='rgba(73,182,77,1,0.9)' style={styles.contener}
+                                        onPress={() => this.viewShoppingCart()}>
                         <View style={styles.btnFlotante}>
-                            <Image style={styles.btnImage} source={require('../../../assets/icons/shoppingcar.png')}/>
+                            <Text style={styles.countShoppingCard}>
+                                {this.state.countShoppingCard}
+                            </Text>
+                            <View style={styles.btnFlotante}>
+                                <Image style={styles.btnImage}
+                                       source={require('../../../assets/icons/shoppingcar.png')}/>
+                            </View>
                         </View>
-                    </View>
-                </TouchableHighlight>
-
+                    </TouchableHighlight>
+                </PrincipalComponent>
             </View>
         );
     }

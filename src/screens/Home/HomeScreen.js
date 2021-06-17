@@ -11,12 +11,13 @@ import {serviceApiGet, serviceApiResponse} from "../../ServiciosMaestros/request
 import {api} from "../../ServiciosMaestros/apis";
 import {SearchBar} from "react-native-elements";
 import MenuImage from "../../components/MenuImage/MenuImage";
+import PrincipalComponent from "../Principal/PrincipalComponent";
 
 let inter;
 
 export default class HomeScreen extends React.Component {
-    static navigationOptions = ({ navigation }) => {
-        const { params = {} } = navigation.state;
+    static navigationOptions = ({navigation}) => {
+        const {params = {}} = navigation.state;
         return {
             headerRight: (
                 <MenuImage
@@ -57,78 +58,95 @@ export default class HomeScreen extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            companies:[],
-            value:"",
-            id:0,
-            typingTime:0
+            companies: [],
+            value: "",
+            id: 0,
+            typingTime: 0,
+            nextPage:null
         };
     }
 
     componentDidMount() {
-        const { navigation } = this.props;
-        this.comerciosRequest(navigation.getParam('id'))
+        const {navigation} = this.props;
+        navigation.setParams({
+            handleSearch: this.handleSearch,
+            value: ""
+        });
+        this.comerciosRequest(navigation.getParam('id'),"",false)
 
 
     }
 
-    comerciosRequest = (id,value="")=>{
+    comerciosRequest = (id, value = "",text=false) => {
         clearInterval(inter)
-        serviceApiResponse({id,filter:value},api.comercios,"POST")
+        let nextPage = parseInt(this.state.nextPage) + 1;
+        let url = api.comercios;
+        if (nextPage && text) {
+            url = url + "?page=" + nextPage;
+        }
+        serviceApiResponse({id, filter: value}, url, "POST")
             .then((response) => {
+                console.log("COMPANIES:::", response)
                 if (response.status) {
-
+                    let data = []
+                    data = this.state.companies;
+                    if (nextPage && text) {
+                        response.data.data.map((dat) => {
+                            data.push(dat);
+                        })
+                    } else {
+                        data = response.data.data
+                    }
                     this.setState({
-                        companies:response.data,
-                        id:id,
-                        value
-                    },()=>{
-
+                        companies: data,
+                        value,
+                        id,
+                        nextPage: response.data.current_page
                     });
-                }else{
+                } else {
                     this.setState({
-                        companies:[],
-                        id:id,
-                        value
-                    },()=>{
+                        companies: [],
+                        value,
+                        id,
+                        nextPage: null
                     });
+
                 }
+
             })
             .catch((error) => {
-                console.log("error:::",error)
+                console.log("error:::", error)
             })
-        clearInterval(inter)
-
     }
 
-    interval(text){
-        const { navigation } = this.props;
-        navigation.setParams({
-            handleSearch: ()=>this.handleSearch(value),
-            data: [],
-            value
-        });
-        inter = setInterval(()=>{
-            this.comerciosRequest(this.state.id,text)
-        },2000);
+    interval(text) {
+        inter = setInterval(() => {
+            this.comerciosRequest(this.state.id, text, false)
+        }, 250);
     }
 
     handleSearch = text => {
+        const {navigation} = this.props;
+        navigation.setParams({
+            value: text
+        });
         clearInterval(inter)
         this.setState({
-            value:text,
-        },()=>{
+            value: text,
+        }, () => {
             this.interval(text)
         })
     };
 
-    onPressRecipe = (id,photo_url,commerceName) => {
-        this.props.navigation.navigate('RecipesList', {id,photo_url,commerceName});
+    onPressRecipe = (id, photo_url, commerceName) => {
+        this.props.navigation.navigate('RecipesList', {id, photo_url, commerceName});
     };
 
-    renderRecipes = ({ item }) => (
-        <TouchableHighlight underlayColor='rgba(73,182,77,1,0.9)' onPress={() => this.onPressRecipe(item.key,item.photo_url,item.name)}>
+    renderRecipes = ({item}) => (
+        <TouchableHighlight underlayColor='rgba(73,182,77,1,0.9)'
+                            onPress={() => this.onPressRecipe(item.key, item.photo_url, item.name)}>
             <View style={styles.categoriesItemContainer}>
-                <Image style={styles.categoriesPhoto} source={{ uri: item.photo_url }} />
+                <Image style={styles.categoriesPhoto} source={{uri: item.photo_url}}/>
                 <View style={styles.letter}>
                     <Text style={styles.categoriesName}>{item.name}</Text>
                     <View style={styles.groupText}>
@@ -140,16 +158,25 @@ export default class HomeScreen extends React.Component {
         </TouchableHighlight>
     );
 
+    _scrollInfiniteRequest = (id, value) => {
+        this.comerciosRequest(id, value, true);
+    }
+
     render() {
         return (
-            <View>
-                <FlatList
-                    vertical
-                    showsVerticalScrollIndicator={false}
-                    data={this.state.companies}
-                    renderItem={this.renderRecipes}
-                    keyExtractor={item => `${item.key}`}
-                />
+            <View style={{flex:1}}>
+                <PrincipalComponent>
+                    <FlatList
+                        vertical
+                        showsVerticalScrollIndicator={false}
+                        data={this.state.companies}
+                        renderItem={this.renderRecipes}
+                        keyExtractor={item => `${item.key}`}
+                        onEndReached={() => this._scrollInfiniteRequest(this.state.id, this.state.value)}
+                        initialNumToRender={10}
+                        onEndReachedThreshold={1}
+                    />
+                </PrincipalComponent>
             </View>
         );
     }
