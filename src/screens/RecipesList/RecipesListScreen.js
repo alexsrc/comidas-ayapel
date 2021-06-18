@@ -6,7 +6,7 @@ import {
     TouchableHighlight,
     Image
 } from 'react-native';
-import styles from './styles';
+import styles from './Styles';
 import {serviceApiResponse} from "../../ServiciosMaestros/request";
 import {api} from "../../ServiciosMaestros/apis";
 import {SearchBar} from "react-native-elements";

@@ -15,6 +15,7 @@ import SearchScreen from '../screens/Search/SearchScreen';
 import IngredientsDetailsScreen from '../screens/IngredientsDetails/IngredientsDetailsScreen';
 import DescriptionProduct from "../screens/DescriptionProduct/DescriptionProduct";
 import DescriptionShoppingCart from "../screens/DescriptionShoppingCart/DescriptionShoppingCart";
+import Register from "../screens/Register/Register";
 
 /* const Stack = createStackNavigator();
 
@@ -43,18 +44,17 @@ function MainNavigator() {
 
 const MainNavigator = createStackNavigator(
     {
+        Register:Register,
         Home: HomeScreen,
         //Categories: HomeScreen,
         RecipesList: RecipesListScreen,
         DescriptionProduct: DescriptionProduct,
         ShoppingCart: DescriptionShoppingCart,
         Recipe: RecipeScreen,
-        Ingredient: IngredientScreen,
         Search: SearchScreen,
-        IngredientsDetails: IngredientsDetailsScreen
     },
     {
-        initialRouteName: 'Home',
+        initialRouteName: 'Register',
         // headerMode: 'float',
         defaulfNavigationOptions: ({navigation}) => ({
             headerTitleStyle: {
