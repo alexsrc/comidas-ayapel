@@ -16,6 +16,7 @@ import IngredientsDetailsScreen from '../screens/IngredientsDetails/IngredientsD
 import DescriptionProduct from "../screens/DescriptionProduct/DescriptionProduct";
 import DescriptionShoppingCart from "../screens/DescriptionShoppingCart/DescriptionShoppingCart";
 import Register from "../screens/Register/Register";
+import Login from "../screens/Login/login";
 
 /* const Stack = createStackNavigator();
 
@@ -46,6 +47,7 @@ const MainNavigator = createStackNavigator(
     {
         Register:Register,
         Home: HomeScreen,
+        Login: Login,
         //Categories: HomeScreen,
         RecipesList: RecipesListScreen,
         DescriptionProduct: DescriptionProduct,
