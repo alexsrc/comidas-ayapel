@@ -3,7 +3,8 @@ export const api = {
     comercios:              "/v1/companies",
     comercios_por_tipo:     "/v1/company/companies",
     products:               "/v1/company/products/",
-    token:                  "/api/recaudo/get/token",
+    token:                  "/login",
+    register:               "/v1/register",
 };
 
 

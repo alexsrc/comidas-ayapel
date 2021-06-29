@@ -1,21 +1,23 @@
-import { StyleSheet } from 'react-native';
-
+import { StyleSheet, Dimensions } from 'react-native';
+let ScreenHeight = Dimensions.get("window").height;
+let porcentaje30= ScreenHeight*0.30;
 const styles = StyleSheet.create({
     container:{
         flex:1,
         alignContent:"center",
         alignItems:"center",
-        width:"90%",
+        minWidth:"90%",
         margin: "5%",
         borderColor: '#cccccc',
         borderWidth: 0.5,
         borderRadius: 20,
         paddingTop:"5%",
-        minHeight: "auto"
+        minHeight: ScreenHeight-porcentaje30
     },
     groupInput:{
         width:"100%",
         maxHeight:"8%",
+        minHeight:"8%",
         flex:1,
         marginRight:2,
         marginLeft:2,
@@ -27,8 +29,8 @@ const styles = StyleSheet.create({
         borderColor:"blue",
         borderWidth:1,
         borderRadius:20,
-        width:"85%",
-        height:"50%",
+        minWidth:"85%",
+        minHeight:"50%",
         marginTop:"auto",
         marginBottom:"auto",
         marginRight: "auto",

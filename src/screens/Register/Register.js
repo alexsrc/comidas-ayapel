@@ -3,6 +3,8 @@ import {View, TextInput, Text, TouchableHighlight} from "react-native";
 import PrincipalComponent from "../Principal/PrincipalComponent";
 import ValidationComponent from 'react-native-form-validator';
 import styles from './Styles';
+import {serviceApiResponse} from "../../ServiciosMaestros/request";
+import { api } from "../../ServiciosMaestros/apis";
 
 const messages = {
     es: {
@@ -37,7 +39,9 @@ export default class Register extends ValidationComponent {
             lastname: "",
             cellphone: "",
             password: "",
-            confirmPassword: ""
+            confirmPassword: "",
+            error:false,
+            messageError:""
         }
     }
 
@@ -53,14 +57,35 @@ export default class Register extends ValidationComponent {
     }
 
     sendRegister(){
-        this.validate({
+        let validate = this.validate({
             name: {minlength:3, maxlength:25, required: true},
             lastname: {minlength:3, maxlength:25, required: true},
             cellphone: {minlength:10, maxlength:10, numbers: true, required: true},
             password: {minlength:4, maxlength:12, required: true},
             confirmPassword: {equalPassword:this.state.password}
         });
-        console.log("values:::",this.state)
+
+        if(validate){
+            // console.log("STATE::: ",this.state)
+            serviceApiResponse(this.state,api.register,"POST")
+                .then((response)=>{
+                    console.log(response)
+                    if (response.status) {
+                        this.login()
+                    }else{
+                       this.setState({
+                           error:true,
+                           messageError:response.data[0]
+                       })
+                    }
+                })
+                .catch((error)=>{
+                    this.setState({
+                        error:true,
+                        messageError:"Ocurrio un error, por favor intente más tarde"
+                    })
+                })
+        }
     }
 
     render() {
@@ -77,6 +102,13 @@ export default class Register extends ValidationComponent {
                                 || this.isFieldInError('password') && this.getErrorsInField('password').map((errorMessage,key) =>{ if(key===0)return <Text>{errorMessage}</Text>})
                                 || this.isFieldInError('confirmPassword') && this.getErrorsInField('confirmPassword').map((errorMessage,key) =>{ if(key===0)return <Text>{errorMessage}</Text>})
                             }
+
+                        </View>
+                        <View style={{marginLeft:"3%",marginRight:"3%"}}>
+                            {
+                                this.state.error&&<Text>{this.state.messageError}</Text>
+                            }
+
                         </View>
                         <View style={styles.groupInput}>
                             <View style={styles.textContainer}>
@@ -87,7 +119,7 @@ export default class Register extends ValidationComponent {
                                     style={styles.input}
                                     onChange={(e) => this.onchange(e, "name")}
                                     ref="name"
-
+                                    value={this.state.name}
                                 />
                             </View>
                         </View>
@@ -99,6 +131,7 @@ export default class Register extends ValidationComponent {
                                 <TextInput
                                     style={styles.input}
                                     onChange={(e) => this.onchange(e, "lastname")}
+                                    value={this.state.lastname}
                                 />
                             </View>
                         </View>
@@ -111,6 +144,7 @@ export default class Register extends ValidationComponent {
                                     style={styles.input}
                                     keyboardType="numeric"
                                     onChange={(e) => this.onchange(e, "cellphone")}
+                                    value={this.state.cellphone}
                                 />
                             </View>
                         </View>
@@ -123,6 +157,7 @@ export default class Register extends ValidationComponent {
                                     style={styles.input}
                                     secureTextEntry={true}
                                     onChange={(e) => this.onchange(e, "password")}
+                                    value={this.state.password}
                                 />
                             </View>
                         </View>
@@ -135,6 +170,7 @@ export default class Register extends ValidationComponent {
                                     style={styles.input}
                                     secureTextEntry={true}
                                     onChange={(e) => this.onchange(e, "confirmPassword")}
+                                    value={this.state.confirmPassword}
                                 />
                             </View>
                         </View>
