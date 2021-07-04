@@ -4,9 +4,33 @@ import base64 from 'react-native-base64'
 
 import {api} from "./apis";
 
-const baseUrl = "https://636ee8910993.ngrok.io";
+const baseUrl = "https://2a9bc8a8685e.ngrok.io";
 
 let aux = 0;
+
+const _storeData = async (key,value) => {
+    try {
+        await AsyncStorage.setItem(
+            key,
+            value,
+            (error)=>{
+                error?console.log("error ",error):console.log("ingreso ")
+            }
+        );
+    } catch (error) {
+    }
+};
+
+const _retrieveData = async (key) => {
+    try {
+        let value=null;
+        await AsyncStorage.getItem(key).then((result)=>{value=result});
+        // console.log("el valor", value)
+        return value;
+    } catch (error) {
+        return value;
+    }
+};
 
 const tokenApi = (user, pass, url, method) => {
     aux++;
@@ -25,10 +49,7 @@ const tokenApi = (user, pass, url, method) => {
             .then(checkStatus)
             .then(parseJSON)
             .then((response) => {
-                if (response.success)
-                    AsyncStorage.setItem("token", response.data.token, () => {
-                        return "error"
-                    });
+                const value=_storeData("token",response.data.token)
                 resolve(response);
             })
             .catch((error) => {
@@ -98,11 +119,13 @@ const serviceApi = (data, url, method, file) => {
     });
 };
 
-const serviceApiResponse = (data, url, method, file = false) => {
+const serviceApiResponse =async (data, url, method, file = false) => {
+    let token=await _retrieveData("token");
+    console.log("token",token)
     let options = {
         method,
         headers: {
-            Authorization: "Bearer " + AsyncStorage.getItem("token"),
+            Authorization: "Bearer " + token,
             Accept: "application/json",
             "Content-Type": file ? "multipart/form-data" : "application/json",
         },
@@ -113,9 +136,11 @@ const serviceApiResponse = (data, url, method, file = false) => {
             .then(checkStatus)
             .then(parseJSON)
             .then((response) => {
+                if(!response.status)this.props.navigation.navigate('Login');
                 resolve(response);
             })
             .catch((error) => {
+                this.props.navigation.navigate('Login');
                 reject(error);
             });
     });
@@ -163,5 +188,7 @@ export {
     serviceApi,
     serviceApiGet,
     serviceApiPost,
-    tokenApi
+    tokenApi,
+    _retrieveData,
+    _storeData
 };

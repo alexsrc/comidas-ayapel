@@ -27,7 +27,16 @@
       "supportsTablet": true
     },
     "android": {
-      "package": "com.comidaayapel.comidas"
+      "package": "com.comidaayapel.comidas",
+      "adaptiveIcon": {
+        "foregroundImage": "./src/assets/icons/comidasayapel.jpg",
+        "backgroundColor": "#FFFFFF"
+      },
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyALEuMCDeRSF3MDgzodpV3Ec2n4QGbsxXI"
+        }
+      }
     }
   },
   "permissions": [

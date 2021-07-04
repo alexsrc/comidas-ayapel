@@ -7,11 +7,12 @@ import {
     Image
 } from 'react-native';
 import styles from './styles';
-import {serviceApiGet, serviceApiResponse} from "../../ServiciosMaestros/request";
+import {serviceApiResponse} from "../../ServiciosMaestros/request";
 import {api} from "../../ServiciosMaestros/apis";
 import {SearchBar} from "react-native-elements";
 import MenuImage from "../../components/MenuImage/MenuImage";
 import PrincipalComponent from "../Principal/PrincipalComponent";
+import {_retrieveData} from "../../ServiciosMaestros/request";
 
 let inter;
 
@@ -64,6 +65,9 @@ export default class HomeScreen extends React.Component {
             typingTime: 0,
             nextPage:null
         };
+
+        let token=_retrieveData("token")
+        if(!token) this.props.navigation.navigate('Login');
     }
 
     componentDidMount() {
@@ -87,6 +91,7 @@ export default class HomeScreen extends React.Component {
         serviceApiResponse({id, filter: value}, url, "POST")
             .then((response) => {
                 if (response.status) {
+
                     let data = []
                     data = this.state.companies;
                     if (nextPage && text) {

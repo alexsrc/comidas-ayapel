@@ -1,8 +1,115 @@
+import { StyleSheet, Dimensions } from 'react-native';
+let ScreenHeight = Dimensions.get("window").height;
+let porcentaje30= ScreenHeight*0.30;
+let porcentaje50= ScreenHeight*0.50;
+let porcentaje20= ScreenHeight*0.70;
 const styles = StyleSheet.create({
+    modal: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        marginTop: 22
+    },
+    modalInto: {
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    modalView:{
+        margin: 20,
+        backgroundColor: "white",
+        borderRadius: 20,
+        width:"90%",
+        minHeight: ScreenHeight-porcentaje50,
+        alignItems: "center",
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5
+    },
+    addressInfo:{
+        width:"90%",
+        height:"90%"
+    },
+    groupInput:{
+        width:"100%",
+        maxHeight:"8%",
+        minHeight:"8%",
+        marginTop:"15%",
+        flex:1,
+        marginRight:2,
+        marginLeft:2,
+        flexDirection:"column",
+        alignContent:"center",
+        alignItems:"flex-start",
+    },
+    input:{
+        borderColor:"blue",
+        borderWidth:1,
+        borderRadius:20,
+        minWidth:"100%",
+        minHeight:"100%",
+        marginTop:"auto",
+        marginBottom:"auto",
+        marginRight: "auto",
+        paddingLeft:"5%",
+        paddingRight:"5%",
+    },
+    containerInput:{
+        width:"100%",
+        height: "100%",
+        alignItems:"center",
+        alignContent:"center"
+    },
+    text:{
+        textAlign:"left"
+    },
+    textContainer:{
+
+        width:"100%",
+        textAlign:"left"
+    },
+    buttonModalGroup:{
+        flex:1,
+        flexDirection:"row",
+        marginBottom: "auto",
+        marginLeft:15,
+        marginRight:15,
+        height:"10%"
+    },
+    buttonModal: {
+        borderRadius: 20,
+        padding: 10,
+        elevation: 2,
+        width:"50%",
+        height:"70%",
+        marginRight:5,
+        marginLeft:5,
+        justifyContent: 'center',
+        alignItems:'center'
+    },
+    buttonOpen: {
+        backgroundColor: "#F194FF",
+    },
+    buttonClose: {
+        backgroundColor: "#2196F3",
+    },
+    textStyle: {
+        color: "white",
+        fontWeight: "bold",
+    },
+    modalText: {
+        marginTop:"5%",
+        textAlign: "center"
+    },
     container:{
         margin:0,
         flex:1,
         alignItems:"center",
+        minHeight: ScreenHeight-porcentaje30
     },
     containerCommerce:{
         flex: 1,
@@ -152,9 +259,15 @@ const styles = StyleSheet.create({
         borderColor: 'blue',
         height: "5%",
         textAlignVertical:'center',
+    },
+    containerMap: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    mapStyle: {
+        width: "90%",
+        height: "70%",
     }
 });
-
-import { StyleSheet } from 'react-native';
-
 export default styles;

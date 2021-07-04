@@ -1,9 +1,9 @@
 import React from "react";
-import {Text, TextInput, TouchableHighlight, View} from "react-native";
+import {AsyncStorage, Text, TextInput, TouchableHighlight, View} from "react-native";
 import PrincipalComponent from "../Principal/PrincipalComponent";
 import styles from "../Register/Styles";
 import ValidationComponent from "react-native-form-validator";
-import {tokenApi} from "../../ServiciosMaestros/request";
+import {tokenApi, _storeData} from "../../ServiciosMaestros/request";
 import {api} from "../../ServiciosMaestros/apis";
 
 const messages = {
@@ -44,9 +44,8 @@ export default class Login extends ValidationComponent {
         if(validate){
             tokenApi(this.state.cellphone,this.state.password,this.state,api.token,"POST")
                 .then((response)=>{
-                    console.log("RESPONSE:::",response)
                     if (response.status) {
-                        console.log("ENTRO")
+                        this.props.navigation.navigate('Home');
                     }else{
                         this.setState({
                             error:true,

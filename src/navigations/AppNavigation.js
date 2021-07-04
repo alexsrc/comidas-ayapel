@@ -17,7 +17,6 @@ import DescriptionProduct from "../screens/DescriptionProduct/DescriptionProduct
 import DescriptionShoppingCart from "../screens/DescriptionShoppingCart/DescriptionShoppingCart";
 import Register from "../screens/Register/Register";
 import Login from "../screens/Login/login";
-
 /* const Stack = createStackNavigator();
 
 function MainNavigator() {
@@ -46,8 +45,8 @@ function MainNavigator() {
 const MainNavigator = createStackNavigator(
     {
         Register:Register,
-        Home: HomeScreen,
         Login: Login,
+        Home: HomeScreen,
         //Categories: HomeScreen,
         RecipesList: RecipesListScreen,
         DescriptionProduct: DescriptionProduct,
