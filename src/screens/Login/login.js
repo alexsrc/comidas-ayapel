@@ -22,7 +22,7 @@ export default class Login extends ValidationComponent {
         this.labels={cellphone: "celular",password: "Contraseña"};
         this.state = {
             cellphone: "1234567890",
-            password: "12345",
+            password: "123456",
             error:false,
             messageError:""
         }

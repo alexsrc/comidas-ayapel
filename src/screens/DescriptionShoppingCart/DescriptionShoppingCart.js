@@ -6,7 +6,6 @@ import {
     FlatList,
     TouchableHighlight,
     Modal,
-    Pressable,
     TextInput
 } from "react-native";
 import styles from './styles';
@@ -14,8 +13,10 @@ import {numberFormat} from '../../ServiciosMaestros/general';
 import {Linking} from "react-native";
 import PrincipalComponent from "../Principal/PrincipalComponent";
 import ValidationComponent from 'react-native-form-validator';
-import MapView, {PROVIDER_GOOGLE} from 'react-native-maps';
+import MapView, {PROVIDER_GOOGLE,Marker} from 'react-native-maps';
 import {mapStyle} from './mapStyle';
+import {serviceApiGetWhitoutBaseUrl} from "../../ServiciosMaestros/request";
+
 
 const messages = {
     es: {
@@ -25,6 +26,7 @@ const messages = {
 
     },
 };
+let inter;
 
 export default class DescriptionShoppingCart extends ValidationComponent {
     static navigationOptions = ({navigation}) => {
@@ -50,8 +52,16 @@ export default class DescriptionShoppingCart extends ValidationComponent {
             address: "",
             addressDescription: "",
             modal: true,
+            location:{
+                latitude: 8.3092849,
+                longitude:-75.140264
+            }
 
         }
+    }
+
+    componentDidMount() {
+        this.geocoderRequest("Ayapel,Cordoba,Colombia");
     }
 
     sendMessageWhatsapp() {
@@ -73,12 +83,15 @@ export default class DescriptionShoppingCart extends ValidationComponent {
         })
     }
 
-    onchange = (e, field) => {
+    onchange = async (e, field) => {
+        clearInterval(inter)
         let value = e.nativeEvent.text;
         this.setState({
             [field]: value
-        })
+        },()=>{if(field==="address")this.interval(value)})
     }
+
+
 
     renderRecipes = ({item}) => (
         <View>
@@ -106,12 +119,49 @@ export default class DescriptionShoppingCart extends ValidationComponent {
         )
     }
 
+    interval=(text)=> {
+        inter = setInterval(() => {
+            this.geocoderRequest(text)
+        }, 2000);
+    }
+
+
     errores() {
         return this.isFieldInError('address') && this.getErrorsInField('address').map((errorMessage, key) => {
                 if (key === 0) return this.viewError(errorMessage)
             })
             || this.isFieldInError('addressDescription') && this.getErrorsInField('addressDescription').map((errorMessage, key) => {
                 if (key === 0) return this.viewError(errorMessage)
+            })
+    }
+
+
+    geocoderRequest=(address)=>{
+        clearInterval(inter)
+        let address2=encodeURI(address)
+        const url="https://maps.googleapis.com/maps/api/geocode/json?address="+address2+"w,+CA&key=APIKEY";
+        console.log("URL:::",url)
+        serviceApiGetWhitoutBaseUrl(url)
+            .then((response)=>{
+                if(response.status==="OK"){
+                    console.log("RESPUESTA",response.results[0].geometry.location)
+                    this.setState({
+                        location: {
+                            longitude:response.results[0].geometry.location.lng,
+                            latitude:response.results[0].geometry.location.lat,
+                            latitudeDelta:0.0922,
+                            longitudeDelta:0.0421
+                        },
+                        addressDescription:JSON.stringify(response.results[0].geometry.location)
+                    })
+                }
+                else{
+                    console.log("ERROR:::",response)
+                }
+
+            })
+            .catch((error)=>{
+                console.log("ERROR:::",error)
             })
     }
 
@@ -171,29 +221,30 @@ export default class DescriptionShoppingCart extends ValidationComponent {
                                                     customMapStyle={mapStyle}
                                                     provider={PROVIDER_GOOGLE}
                                                     style={styles.mapStyle}
-                                                    initialRegion={{
-                                                        latitude: 8.3092846,
-                                                        longitude: "-75.1670841,14z"
-                                                    }}
+                                                    initialRegion={this.state.location}
+                                                    region={this.state.location}
                                                     mapType="standard"
                                                     showsUserLocation={true}
-                                                />
+                                                    zoomControlEnabled={true}
+                                                >
+                                                    <Marker coordinate={{latitude:this.state.location.latitude,longitude:this.state.location.longitude}} />
+                                                </MapView>
                                             </View>
                                         </View>
                                     </View>
                                     <View style={styles.buttonModalGroup}>
-                                        <Pressable
+                                        <TouchableHighlight
                                             style={[styles.buttonModal, styles.buttonClose]}
                                             onPress={() => this.sendMessageWhatsapp()}
                                         >
                                             <Text style={styles.textStyle}>Confirmar</Text>
-                                        </Pressable>
-                                        <Pressable
+                                        </TouchableHighlight>
+                                        <TouchableHighlight
                                             style={[styles.buttonModal, styles.buttonClose]}
                                             onPress={() => this.openModal(false)}
                                         >
                                             <Text style={styles.textStyle}>Cancelar</Text>
-                                        </Pressable>
+                                        </TouchableHighlight>
                                     </View>
                                 </View>
                             </View>

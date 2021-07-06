@@ -4,6 +4,11 @@ import AppContainer from './src/navigations/AppNavigation';
 
 export default function App() {
   return (
-     <AppContainer />
+      <AppContainer>
+        <script
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyALEuMCDeRSF3MDgzodpV3Ec2n4QGbsxXI&callback=initMap&libraries=&v=weekly"
+            async
+        ></script>
+      </AppContainer>
   );
 }

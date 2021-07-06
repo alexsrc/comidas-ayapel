@@ -4,7 +4,7 @@ import base64 from 'react-native-base64'
 
 import {api} from "./apis";
 
-const baseUrl = "https://2a9bc8a8685e.ngrok.io";
+const baseUrl = "https://13eb1e9f8437.ngrok.io";
 
 let aux = 0;
 
@@ -58,13 +58,25 @@ const tokenApi = (user, pass, url, method) => {
     });
 };
 
+const serviceApiGetWhitoutBaseUrl = (url) => {
+    return new Promise((resolve, reject) => {
+        fetch(url, {
+            method: "GET"
+        })
+            .then(parseJSON)
+            .then((response) => {
+                resolve(response);
+            })
+            .catch((error) => {
+                reject(error);
+            });
+    });
+};
+
 const serviceApiGet = (url) => {
     return new Promise((resolve, reject) => {
         fetch(baseUrl + url, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-            }
+            method: "GET"
         })
             .then(parseJSON)
             .then((response) => {
@@ -121,7 +133,6 @@ const serviceApi = (data, url, method, file) => {
 
 const serviceApiResponse =async (data, url, method, file = false) => {
     let token=await _retrieveData("token");
-    console.log("token",token)
     let options = {
         method,
         headers: {
@@ -190,5 +201,6 @@ export {
     serviceApiPost,
     tokenApi,
     _retrieveData,
-    _storeData
+    _storeData,
+    serviceApiGetWhitoutBaseUrl
 };
