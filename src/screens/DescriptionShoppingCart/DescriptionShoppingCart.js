@@ -15,7 +15,8 @@ import PrincipalComponent from "../Principal/PrincipalComponent";
 import ValidationComponent from 'react-native-form-validator';
 import MapView, {PROVIDER_GOOGLE,Marker} from 'react-native-maps';
 import {mapStyle} from './mapStyle';
-import {serviceApiGetWhitoutBaseUrl} from "../../ServiciosMaestros/request";
+import {serviceApiGetWhitoutBaseUrl, serviceApiResponse} from "../../ServiciosMaestros/request";
+import {api} from "../../ServiciosMaestros/apis";
 
 
 const messages = {
@@ -51,10 +52,12 @@ export default class DescriptionShoppingCart extends ValidationComponent {
             total: total,
             address: "",
             addressDescription: "",
-            modal: true,
+            modal: false,
             location:{
                 latitude: 8.3092849,
-                longitude:-75.140264
+                longitude:-75.140264,
+                latitudeDelta:0.1,
+                longitudeDelta:0.1
             }
 
         }
@@ -65,13 +68,34 @@ export default class DescriptionShoppingCart extends ValidationComponent {
     }
 
     sendMessageWhatsapp() {
+
         let validate = this.validate({
             address: {minlength: 8, maxlength: 40, required: true},
             addressDescription: {minlength: 8, maxlength: 40, required: true}
         });
         if (validate) {
-
-            Linking.openURL('whatsapp://send?text=' + "hola mundo!" + '&phone=57' + 3205677440);
+            let {navigation} = this.props;
+            let data={
+                "arrayProducts":navigation.getParam("shoppingCard"),
+                "address":this.state.address,
+                "latitude":this.state.location.latitude,
+                "longitude":this.state.location.longitude,
+                "addressDescription":this.state.addressDescription
+            };
+            serviceApiResponse(data,api.order,"POST")
+                .then((response)=>{
+                    if(response.status){
+                        Linking.openURL(response.data.urlWhatsapp)
+                    }
+                    else {
+                        console.log("error")
+                    }
+            })
+                .catch((error)=>{
+                    console.log("error")
+                })
+            console.log("NAVIGATION:::",navigation)
+            // Linking.openURL('whatsapp://send?text=' + "hola mundo!" + '&phone=57' + 3205677440);
         }
 
     }
@@ -139,7 +163,7 @@ export default class DescriptionShoppingCart extends ValidationComponent {
     geocoderRequest=(address)=>{
         clearInterval(inter)
         let address2=encodeURI(address)
-        const url="https://maps.googleapis.com/maps/api/geocode/json?address="+address2+"w,+CA&key=APIKEY";
+        const url="https://maps.googleapis.com/maps/api/geocode/json?address="+address2+"w,+CA&key=AIzaSyDYazUNI4WBSbSp1qAApU3UvFCgBpN3FMk";
         console.log("URL:::",url)
         serviceApiGetWhitoutBaseUrl(url)
             .then((response)=>{
@@ -149,10 +173,9 @@ export default class DescriptionShoppingCart extends ValidationComponent {
                         location: {
                             longitude:response.results[0].geometry.location.lng,
                             latitude:response.results[0].geometry.location.lat,
-                            latitudeDelta:0.0922,
-                            longitudeDelta:0.0421
-                        },
-                        addressDescription:JSON.stringify(response.results[0].geometry.location)
+                            latitudeDelta:0.1,
+                            longitudeDelta:0.1
+                        }
                     })
                 }
                 else{
@@ -226,6 +249,8 @@ export default class DescriptionShoppingCart extends ValidationComponent {
                                                     mapType="standard"
                                                     showsUserLocation={true}
                                                     zoomControlEnabled={true}
+                                                    minZoomLevel={16}
+                                                    maxZoomLevel={50}
                                                 >
                                                     <Marker coordinate={{latitude:this.state.location.latitude,longitude:this.state.location.longitude}} />
                                                 </MapView>

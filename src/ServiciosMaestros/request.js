@@ -4,7 +4,7 @@ import base64 from 'react-native-base64'
 
 import {api} from "./apis";
 
-const baseUrl = "https://13eb1e9f8437.ngrok.io";
+const baseUrl = "https://ad4eda5a9c75.ngrok.io";
 
 let aux = 0;
 

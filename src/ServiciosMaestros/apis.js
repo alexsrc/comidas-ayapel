@@ -5,6 +5,7 @@ export const api = {
     products:               "/v1/company/products/",
     token:                  "/login",
     register:               "/v1/register",
+    order:                  "/v1/order",
 };
 
 
